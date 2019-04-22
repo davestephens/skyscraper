@@ -9,4 +9,5 @@ build_script:
   - mingw32-make
 
 artifacts:
-  - path: release\*
+  - path: release\skyscraper.exe
+  - path: build\*
