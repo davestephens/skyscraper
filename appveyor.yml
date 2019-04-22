@@ -1,18 +1,36 @@
-image: Visual Studio 2017
-
-install:
-  - set QTDIR=C:\Qt\5.12.2\mingw73_64
-  - set PATH=%PATH%;%QTDIR%\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin\
+image: 
+  - Ubuntu 
+  - Visual Studio 2017
   
-build_script:
-  - qmake skyscraper.pro
-  - mingw32-make
-  - windeployqt --no-opengl-sw --no-system-d3d-compiler --dir release\deployment release\skyscraper.exe
+for:
+  - matrix:
+      only:
+        - image: Visual Studio 2017
 
-after_build:
-  - 7z a skyscraper.zip %APPVEYOR_BUILD_FOLDER%\release\skyscraper.exe
-  - 7z a skyscraper.zip %APPVEYOR_BUILD_FOLDER%\release\deployment\*
+    install:
+      - set QTDIR=C:\Qt\5.12.2\mingw73_64
+      - set PATH=%PATH%;%QTDIR%\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin\
 
-artifacts:
-  - path: skyscraper.zip
-    name: Skyscraper
+    build_script:
+      - qmake skyscraper.pro
+      - mingw32-make
+      - windeployqt --no-opengl-sw --no-system-d3d-compiler --dir release\deployment release\skyscraper.exe
+
+    after_build:
+      - 7z a skyscraper.zip %APPVEYOR_BUILD_FOLDER%\release\skyscraper.exe
+      - 7z a skyscraper.zip %APPVEYOR_BUILD_FOLDER%\release\deployment\*
+
+    artifacts:
+      - path: skyscraper.zip
+        name: Skyscraper
+
+  - matrix:
+      only:
+        - image: Ubuntu
+        
+    install:
+      - sudo apt-get update
+      - sudo apt-get install -y qt5-default
+      
+    build_script:
+      - make
