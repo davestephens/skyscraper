@@ -1,44 +1,19 @@
 image: 
-  - Ubuntu 
   - Visual Studio 2017
-  
-for:
-  - matrix:
-      only:
-        - image: Visual Studio 2017
 
-    install:
-      - set QTDIR=C:\Qt\5.12.2\mingw73_64
-      - set PATH=%PATH%;%QTDIR%\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin\
+install:
+  - set QTDIR=C:\Qt\5.12.2\mingw73_64
+  - set PATH=%PATH%;%QTDIR%\bin;C:\mingw-w64\x86_64-7.2.0-posix-seh-rt_v5-rev1\mingw64\bin\
 
-    build_script:
-      - qmake skyscraper.pro
-      - mingw32-make
-      - windeployqt --no-opengl-sw --no-system-d3d-compiler --dir release\deployment release\skyscraper.exe
+build_script:
+  - qmake skyscraper.pro
+  - mingw32-make
+  - windeployqt --no-opengl-sw --no-system-d3d-compiler --dir release\deployment release\skyscraper.exe
 
-    after_build:
-      - 7z a skyscraper.zip %APPVEYOR_BUILD_FOLDER%\release\skyscraper.exe
-      - 7z a skyscraper.zip %APPVEYOR_BUILD_FOLDER%\release\deployment\*
+after_build:
+  - 7z a skyscraper-%APPVEYOR_REPO_COMMIT%.zip %APPVEYOR_BUILD_FOLDER%\release\skyscraper.exe
+  - 7z a skyscraper-%APPVEYOR_REPO_COMMIT%.zip %APPVEYOR_BUILD_FOLDER%\release\deployment\*
 
-    artifacts:
-      - path: skyscraper.zip
-        name: Skyscraper
-
-  - matrix:
-      only:
-        - image: Ubuntu
-        
-    environment:
-      APPVEYOR_SSH_KEY: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCWwOjFjpxq5tCLEZ/5Fre6qkf/svv8gXhlZUVu74hgnjBPQ4vKNtVyWj6xhxQdB2Iea4DRfoWNAq5Odpk+RVZV6Tf1V2+PhXplhr7QNbwWE01laNClXlZ/fRTt2VSWpY4di8rAEZjTQXRAHHiUZWiy0jREgmlKUdCFk0mZSLilDJqvxIjOC07d6J29l3byQCX23rZ5Xdmqypxis2CUQ25UytB4u2X37yBjhU/0CFxkk2PBa4pTspjqrfUwmfBUpoQORO0N1ngfmsYmFXcsbJg87gxMm/MKT6vDmejGF/iU2F+LHZ32rZLou4tqlfDgHXDTEi2guRJcS39ri6W3XRf
-        
-    install:
-      - sudo apt-get update
-      - sudo apt-get install -y qt5-default
-      
-    build_script:
-      - qmake skyscraper.pro
-      - make
-    
-    on_finish:
-      - export APPVEYOR_SSH_BLOCK=true
-      - curl -sflL 'https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-ssh.sh' | bash -e -
+artifacts:
+  - path: skyscraper-%APPVEYOR_REPO_COMMIT%.zip
+    name: Skyscraper
