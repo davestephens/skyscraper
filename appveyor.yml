@@ -10,4 +10,5 @@ build_script:
   - windeployqt release\skyscraper.exe
 
 artifacts:
-  - path: release\skyscraper.exe
+  - path: release\*
+  - path: release\**\*
