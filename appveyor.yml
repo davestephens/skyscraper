@@ -7,8 +7,10 @@ install:
 build_script:
   - qmake skyscraper.pro
   - mingw32-make
-  - windeployqt release\skyscraper.exe
+  - release\skyscraper.exe
+  - windeployqt --dir release\deployment release\skyscraper.exe
 
 artifacts:
-  - path: release\*
-  - path: release\**\*
+  - path: release\skyscraper.exe
+  - path: release\deployment\*
+  - path: release\deployment\**\*
