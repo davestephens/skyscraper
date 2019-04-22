@@ -7,7 +7,7 @@ install:
 build_script:
   - qmake skyscraper.pro
   - mingw32-make
-  - windeployqt --dir release\deployment release\skyscraper.exe
+  - windeployqt --no-opengl-sw --no-system-d3d-compiler --dir release\deployment release\skyscraper.exe
 
 artifacts:
   - path: release\skyscraper.exe
