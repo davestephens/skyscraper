@@ -11,7 +11,7 @@ build_script:
 
 after_build:
   - 7z a skyscraper.zip %APPVEYOR_BUILD_FOLDER%\release\skyscraper.exe
-  - 7z a skyscraper.zip %APPVEYOR_BUILD_FOLDER%\release\deployment*
+  - 7z a skyscraper.zip %APPVEYOR_BUILD_FOLDER%\release\deployment\*
 
 artifacts:
   - path: skyscraper.zip
